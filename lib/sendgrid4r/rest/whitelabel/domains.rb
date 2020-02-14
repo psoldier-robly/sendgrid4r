@@ -125,7 +125,7 @@ module SendGrid4r::REST
 
       def post_wl_domain(
         domain:, subdomain:, username: nil, ips: nil, automatic_security: nil,
-        custom_spf: nil, default: nil, &block
+        custom_spf: nil, default: nil, custom_dkim_selector: 'm1', &block
       )
         params = {
           domain: domain,
@@ -138,6 +138,7 @@ module SendGrid4r::REST
         end
         params[:custom_spf] = custom_spf unless custom_spf.nil?
         params[:default] = default unless default.nil?
+        params[:custom_dkim_selector] = custom_dkim_selector
         resp = post(@auth, Domains.url, params, &block)
         finish(resp, @raw_resp) { |r| Domains.create_domain(r) }
       end
